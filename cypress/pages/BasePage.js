@@ -9,7 +9,7 @@ export default class BasePage {
   }
 
   getByTestId(selector) {
-    return cy.get(`[data-test="${selector}"]`);
+    return cy.get(`[data-testid="${selector}"]`);
   }
 
   shouldShowAlertWith(message) {

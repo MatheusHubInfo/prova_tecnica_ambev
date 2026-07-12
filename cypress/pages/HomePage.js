@@ -3,7 +3,7 @@ import { ROUTES, HOME_CONTENT } from '../support/constants';
 
 class HomePage extends BasePage {
   elements = {
-    homeTitle: () => this.getByTestId('home'),
+    homeTitle: () => cy.get('.jumbotron h1'),
     navHome: () => cy.get(HOME_CONTENT.navItems[0].selector),
     navRegisterUsers: () => cy.get(HOME_CONTENT.navItems[1].selector),
     navListUsers: () => cy.get(HOME_CONTENT.navItems[2].selector),
@@ -19,7 +19,10 @@ class HomePage extends BasePage {
   }
 
   shouldBeVisible() {
-    this.elements.homeTitle().should('be.visible');
+    this.elements
+      .homeTitle()
+      .should('be.visible')
+      .and('contain.text', 'Bem Vindo');
     return this;
   }
 

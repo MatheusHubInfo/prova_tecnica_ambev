@@ -38,7 +38,9 @@ Cypress.Commands.add('loginByUi', (email, password) => {
       cy.get(LOGIN_SELECTORS.email).clear().type(userEmail);
       cy.get(LOGIN_SELECTORS.password).clear().type(userPassword);
       cy.get(LOGIN_SELECTORS.submitButton).click();
-      cy.get('[data-test="home"]').should('be.visible');
+      cy.get('.jumbotron h1')
+        .should('be.visible')
+        .and('contain.text', 'Bem Vindo');
     },
     { cacheAcrossSpecs: false },
   );
