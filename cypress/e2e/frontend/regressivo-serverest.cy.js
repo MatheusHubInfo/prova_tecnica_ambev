@@ -45,35 +45,39 @@ describe('CT01 - Regressivo da Home', () => {
   });
 
   context('Cards de funcionalidades', () => {
+    const [
+      registerUsersCard,
+      listUsersCard,
+      registerProductsCard,
+      listProductsCard,
+      reportsCard,
+    ] = HOME_CONTENT.cards;
+
     it('Deve exibir o texto de todos os cards da home', () => {
       HomePage.validateAllCardsContent();
     });
 
-    it('Deve validar as páginas acessadas pelos botões dos cards', () => {
-      const [
-        registerUsersCard,
-        listUsersCard,
-        registerProductsCard,
-        listProductsCard,
-        reportsCard,
-      ] = HOME_CONTENT.cards;
-
+    it('Deve acessar a página de cadastro de usuários pelo card', () => {
       HomePage.clickCardButton(registerUsersCard);
       RegisterUserPage.shouldShowAdminForm();
-      HomePage.visit();
+    });
 
+    it('Deve acessar a página de listagem de usuários pelo card', () => {
       HomePage.clickCardButton(listUsersCard);
       ListUsersPage.shouldBeVisible();
-      HomePage.visit();
+    });
 
+    it('Deve acessar a página de cadastro de produtos pelo card', () => {
       HomePage.clickCardButton(registerProductsCard);
       RegisterProductPage.shouldShowForm();
-      HomePage.visit();
+    });
 
+    it('Deve acessar a página de listagem de produtos pelo card', () => {
       HomePage.clickCardButton(listProductsCard);
       ListProductsPage.shouldBeVisible();
-      HomePage.visit();
+    });
 
+    it('Deve acessar a página de relatórios pelo card', () => {
       HomePage.clickCardButton(reportsCard);
       ReportsPage.shouldBeVisible();
     });

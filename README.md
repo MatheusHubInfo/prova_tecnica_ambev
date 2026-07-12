@@ -131,6 +131,7 @@ npm run test:headed
 ## CI/CD (GitHub Actions)
 
 O pipeline executa automaticamente em push/PR na branch `main`.
+Também é possível executá-lo manualmente em **Actions → Cypress Tests → Run workflow**.
 O usuário de login está definido na fixture do projeto, sem configuração de secrets.
 
 ## Tecnologias
