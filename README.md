@@ -79,8 +79,8 @@ Projeto de automação de testes com **Cypress** e **JavaScript** para a aplica�
 git clone https://github.com/MatheusHubInfo/prova_tecnica_ambev.git
 cd prova_tecnica_ambev
 
-# 2. Instale as dependências
-npm install
+# 2. Instale as dependências exatamente como definidas no package-lock.json
+npm ci
 
 # 3. Configure as credenciais do Serverest
 cp cypress.env.example.json cypress.env.json
@@ -96,6 +96,30 @@ Edite o `cypress.env.json`:
 ```
 
 > **Importante:** cadastre-se em https://front.serverest.dev/ antes de executar os testes que exigem login.
+
+### Solução de problemas: executável do Cypress não encontrado
+
+Normalmente, o `npm ci` também baixa o executável do Cypress. Em alguns ambientes, esse download pode não ocorrer ou o cache local pode ter sido removido. Se aparecer a mensagem `Cypress executable not found`, execute:
+
+```bash
+# Baixa o executável correspondente à versão instalada no projeto
+npx cypress install
+
+# Confirma que a instalação está íntegra
+npx cypress verify
+
+# Abre a interface do Cypress
+npm run cy:open
+```
+
+Se o erro persistir, reinstale as dependências e o executável:
+
+```bash
+rm -rf node_modules
+npm ci
+npx cypress install
+npx cypress verify
+```
 
 ## Executando os testes
 
