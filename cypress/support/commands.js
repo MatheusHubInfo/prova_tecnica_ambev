@@ -1,6 +1,7 @@
+import { API_URL, API_ENDPOINTS } from './constants';
+
 /**
  * Realiza login via API e armazena o token de autorização.
- * Útil para testes de API e setup de cenários E2E.
  */
 Cypress.Commands.add('apiLogin', (email, password) => {
   const credentials = {
@@ -11,7 +12,7 @@ Cypress.Commands.add('apiLogin', (email, password) => {
   return cy
     .request({
       method: 'POST',
-      url: `${Cypress.env('apiUrl')}/login`,
+      url: `${API_URL}${API_ENDPOINTS.login}`,
       body: credentials,
       failOnStatusCode: false,
     })
@@ -24,21 +25,23 @@ Cypress.Commands.add('apiLogin', (email, password) => {
 });
 
 /**
- * Requisição autenticada à API Serverest.
+ * Reutiliza sessão de login no frontend entre testes (cy.session).
  */
-Cypress.Commands.add('apiRequest', (options) => {
-  const token = Cypress.env('authToken');
+Cypress.Commands.add('loginByUi', (email, password) => {
+  const userEmail = email || Cypress.env('userEmail');
+  const userPassword = password || Cypress.env('userPassword');
 
-  return cy.request({
-    ...options,
-    url: options.url.startsWith('http')
-      ? options.url
-      : `${Cypress.env('apiUrl')}${options.url}`,
-    headers: {
-      ...options.headers,
-      ...(token && { Authorization: token }),
+  cy.session(
+    ['login', userEmail],
+    () => {
+      cy.visit('/');
+      cy.get('[data-test="email"]').clear().type(userEmail);
+      cy.get('[data-test="senha"]').clear().type(userPassword);
+      cy.get('[data-test="entrar"]').click();
+      cy.get('[data-test="home"]').should('be.visible');
     },
-  });
+    { cacheAcrossSpecs: false },
+  );
 });
 
 /**
