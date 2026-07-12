@@ -1,6 +1,11 @@
 import LoginPage from '../../pages/LoginPage';
 import HomePage from '../../pages/HomePage';
-import { ROUTES } from '../../support/constants';
+import RegisterUserPage from '../../pages/RegisterUserPage';
+import ListUsersPage from '../../pages/ListUsersPage';
+import RegisterProductPage from '../../pages/RegisterProductPage';
+import ListProductsPage from '../../pages/ListProductsPage';
+import ReportsPage from '../../pages/ReportsPage';
+import { ROUTES, HOME_CONTENT } from '../../support/constants';
 import users from '../../fixtures/users.json';
 
 describe('CT01 - Regressivo da Home', () => {
@@ -44,8 +49,33 @@ describe('CT01 - Regressivo da Home', () => {
       HomePage.validateAllCardsContent();
     });
 
-    it('Deve exibir os botões de todos os cards e navegar corretamente ao clicar', () => {
-      HomePage.validateAllCardsNavigation();
+    it.only('Deve validar as páginas acessadas pelos botões dos cards', () => {
+      const [
+        registerUsersCard,
+        listUsersCard,
+        registerProductsCard,
+        listProductsCard,
+        reportsCard,
+      ] = HOME_CONTENT.cards;
+
+      HomePage.clickCardButton(registerUsersCard);
+      RegisterUserPage.shouldShowAdminForm();
+      HomePage.visit();
+
+      HomePage.clickCardButton(listUsersCard);
+      ListUsersPage.shouldBeVisible();
+      HomePage.visit();
+
+      HomePage.clickCardButton(registerProductsCard);
+      RegisterProductPage.shouldShowForm();
+      HomePage.visit();
+
+      HomePage.clickCardButton(listProductsCard);
+      ListProductsPage.shouldBeVisible();
+      HomePage.visit();
+
+      HomePage.clickCardButton(reportsCard);
+      ReportsPage.shouldBeVisible();
     });
   });
 });

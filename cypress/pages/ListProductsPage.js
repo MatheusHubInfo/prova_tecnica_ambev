@@ -12,6 +12,13 @@ class ListProductsPage extends BasePage {
     return this;
   }
 
+  shouldBeVisible() {
+    cy.url().should('include', ROUTES.adminListProducts);
+    cy.contains('h1', 'Lista dos Produtos').should('be.visible');
+    this.elements.productsTable().should('be.visible');
+    return this;
+  }
+
   shouldContainProduct(productName) {
     this.elements.productsTable().should('be.visible');
     cy.contains('td', productName).should('be.visible');
