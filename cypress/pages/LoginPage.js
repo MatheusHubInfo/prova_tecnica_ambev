@@ -1,11 +1,11 @@
 import BasePage from './BasePage';
-import { ROUTES } from '../support/constants';
+import { ROUTES, LOGIN_SELECTORS } from '../support/constants';
 
 class LoginPage extends BasePage {
   elements = {
-    emailInput: () => this.getByTestId('email'),
-    passwordInput: () => this.getByTestId('senha'),
-    submitButton: () => this.getByTestId('entrar'),
+    emailInput: () => cy.get(LOGIN_SELECTORS.email),
+    passwordInput: () => cy.get(LOGIN_SELECTORS.password),
+    submitButton: () => cy.get(LOGIN_SELECTORS.submitButton),
     registerLink: () => this.getByTestId('cadastrar'),
   };
 
@@ -15,17 +15,17 @@ class LoginPage extends BasePage {
   }
 
   fillEmail(email) {
-    this.elements.emailInput().clear().type(email);
+    this.elements.emailInput().should('be.visible').clear().type(email);
     return this;
   }
 
   fillPassword(password) {
-    this.elements.passwordInput().clear().type(password);
+    this.elements.passwordInput().should('be.visible').clear().type(password);
     return this;
   }
 
   submit() {
-    this.elements.submitButton().click();
+    this.elements.submitButton().should('be.visible').click();
     return this;
   }
 

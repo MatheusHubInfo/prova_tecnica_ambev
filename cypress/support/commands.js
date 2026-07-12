@@ -1,4 +1,4 @@
-import { API_URL, API_ENDPOINTS } from './constants';
+import { API_URL, API_ENDPOINTS, ROUTES, LOGIN_SELECTORS } from './constants';
 
 /**
  * Realiza login via API e armazena o token de autorização.
@@ -34,10 +34,10 @@ Cypress.Commands.add('loginByUi', (email, password) => {
   cy.session(
     ['login', userEmail],
     () => {
-      cy.visit('/');
-      cy.get('[data-test="email"]').clear().type(userEmail);
-      cy.get('[data-test="senha"]').clear().type(userPassword);
-      cy.get('[data-test="entrar"]').click();
+      cy.visit(ROUTES.login);
+      cy.get(LOGIN_SELECTORS.email).clear().type(userEmail);
+      cy.get(LOGIN_SELECTORS.password).clear().type(userPassword);
+      cy.get(LOGIN_SELECTORS.submitButton).click();
       cy.get('[data-test="home"]').should('be.visible');
     },
     { cacheAcrossSpecs: false },

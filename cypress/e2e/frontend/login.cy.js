@@ -14,7 +14,7 @@ describe('Frontend - Login', () => {
     LoginPage.login(email, password);
 
     HomePage.shouldBeVisible();
-    HomePage.elements.logoutButton().should('be.visible');
+    HomePage.elements.navLogout().should('be.visible');
     cy.url().should('include', ROUTES.home);
   });
 });
