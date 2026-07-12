@@ -15,8 +15,8 @@ Projeto de automação de testes com **Cypress** e **JavaScript** para a aplica�
 
 | Arquivo | Cenário |
 |---------|---------|
-| `cypress/e2e/frontend/ct01-home-regressivo.cy.js` | Login e regressivo completo da home administrativa |
-| `cypress/e2e/frontend/cadastro-usuario.cy.js` | Cadastro de novo usuário |
+| `cypress/e2e/frontend/regressivo-serverest.cy.js` | Login, home, navegação e validação visual das páginas administrativas |
+| `cypress/e2e/frontend/cadastro-usuario.cy.js` | Validação dos campos obrigatórios e cadastro de novo usuário |
 | `cypress/e2e/frontend/cadastro-produto.cy.js` | Cadastro de produto e validação na listagem |
 
 ### API — 3 cenários
