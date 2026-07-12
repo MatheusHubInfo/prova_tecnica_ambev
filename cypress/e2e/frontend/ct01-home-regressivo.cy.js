@@ -1,25 +1,12 @@
 import LoginPage from '../../pages/LoginPage';
 import HomePage from '../../pages/HomePage';
 import { ROUTES } from '../../support/constants';
+import users from '../../fixtures/users.json';
 
 describe('CT01 - Regressivo da Home', () => {
-  let adminUser;
-
-  before(() => {
-    return cy.createAdminUser().then((user) => {
-      adminUser = user;
-    });
-  });
-
-  after(() => {
-    if (adminUser) {
-      return cy.deleteUser(adminUser.id);
-    }
-  });
-
   beforeEach(() => {
     LoginPage.visit();
-    LoginPage.login(adminUser.email, adminUser.password);
+    LoginPage.login(users.adminUser.email, users.adminUser.password);
 
     HomePage.shouldBeOnHomePage();
     HomePage.shouldBeVisible();

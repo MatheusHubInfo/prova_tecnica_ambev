@@ -25,41 +25,6 @@ Cypress.Commands.add('apiLogin', (email, password) => {
 });
 
 /**
- * Cria um administrador temporário para deixar os testes independentes.
- */
-Cypress.Commands.add('createAdminUser', () => {
-  const timestamp = Date.now();
-  const user = {
-    nome: 'Teste Automacao',
-    email: `admin.teste.${timestamp}@serverest.dev`,
-    password: 'senha123',
-    administrador: 'true',
-  };
-
-  return cy
-    .request({
-      method: 'POST',
-      url: `${API_URL}${API_ENDPOINTS.users}`,
-      body: user,
-    })
-    .then((response) => {
-      expect(response.status).to.eq(201);
-      return { ...user, id: response.body._id };
-    });
-});
-
-/**
- * Remove um usuário temporário criado durante a execução.
- */
-Cypress.Commands.add('deleteUser', (userId) => {
-  return cy.request({
-    method: 'DELETE',
-    url: `${API_URL}${API_ENDPOINTS.users}/${userId}`,
-    failOnStatusCode: false,
-  });
-});
-
-/**
  * Reutiliza sessão de login no frontend entre testes (cy.session).
  */
 Cypress.Commands.add('loginByUi', (email, password) => {

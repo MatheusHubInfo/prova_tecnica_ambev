@@ -1,27 +1,19 @@
 import { ProductsApi } from '../../services/api';
 import { MESSAGES } from '../../support/constants';
 import { buildProduct } from '../../support/factories';
+import users from '../../fixtures/users.json';
 
 describe('API - Produtos', () => {
-  let adminUser;
   let authToken;
   let createdProductId;
 
   before(() => {
-    return cy.createAdminUser().then((user) => {
-      adminUser = user;
-
-      return cy.apiLogin(user.email, user.password).then((response) => {
+    return cy
+      .apiLogin(users.adminUser.email, users.adminUser.password)
+      .then((response) => {
         expect(response.status).to.eq(200);
         authToken = response.body.authorization;
-      });
     });
-  });
-
-  after(() => {
-    if (adminUser) {
-      return cy.deleteUser(adminUser.id);
-    }
   });
 
   afterEach(() => {

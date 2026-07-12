@@ -4,34 +4,22 @@ import ListProductsPage from '../../pages/ListProductsPage';
 import { ProductsApi } from '../../services/api';
 import { ROUTES } from '../../support/constants';
 import { buildProduct } from '../../support/factories';
+import users from '../../fixtures/users.json';
 
 describe('Frontend - Cadastro de Produto', () => {
-  let adminUser;
   let createdProductName;
 
-  before(() => {
-    return cy.createAdminUser().then((user) => {
-      adminUser = user;
-    });
-  });
-
   beforeEach(() => {
-    cy.loginByUi(adminUser.email, adminUser.password);
+    cy.loginByUi(users.adminUser.email, users.adminUser.password);
     cy.visit('/admin/home');
     HomePage.shouldBeVisible();
-  });
-
-  after(() => {
-    if (adminUser) {
-      return cy.deleteUser(adminUser.id);
-    }
   });
 
   afterEach(() => {
     if (!createdProductName) return;
 
     return cy
-      .apiLogin(adminUser.email, adminUser.password)
+      .apiLogin(users.adminUser.email, users.adminUser.password)
       .then((loginResponse) =>
         ProductsApi.findByName(
           createdProductName,

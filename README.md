@@ -35,6 +35,7 @@ Projeto de automação de testes com **Cypress** e **JavaScript** para a aplica�
 │   ├── e2e/
 │   │   ├── api/              # Testes de API (cy.request)
 │   │   └── frontend/         # Testes E2E do frontend
+│   ├── fixtures/             # Usuário fixo utilizado nos logins
 │   ├── pages/                # Page Objects (POM)
 │   │   ├── BasePage.js       # Classe base reutilizável
 │   │   ├── LoginPage.js
@@ -80,8 +81,9 @@ cd prova_tecnica_ambev
 npm ci
 ```
 
-Os testes criam usuários temporários e removem os dados ao final da execução.
-Por isso, não é necessário cadastrar uma conta ou informar credenciais.
+Os cenários autenticados utilizam o usuário administrador definido em
+`cypress/fixtures/users.json`. Os demais dados criados pelos testes são
+dinâmicos e removidos ao final da execução.
 
 ### Solução de problemas: executável do Cypress não encontrado
 
@@ -129,7 +131,7 @@ npm run test:headed
 ## CI/CD (GitHub Actions)
 
 O pipeline executa automaticamente em push/PR na branch `main`.
-Os dados necessários são criados durante os testes, sem configuração de secrets.
+O usuário de login está definido na fixture do projeto, sem configuração de secrets.
 
 ## Tecnologias
 

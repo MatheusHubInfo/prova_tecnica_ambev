@@ -1,0 +1,8 @@
+{
+  "adminUser": {
+    "nome": "Teste",
+    "email": "mm5426875@gmail.com",
+    "password": "12345matheus",
+    "administrador": "true"
+  }
+}
