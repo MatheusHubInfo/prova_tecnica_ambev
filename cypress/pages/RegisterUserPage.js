@@ -9,6 +9,12 @@ class RegisterUserPage extends BasePage {
     adminCheckbox: () => this.getByTestId('checkbox'),
     submitButton: () => this.getByTestId('cadastrar'),
     adminSubmitButton: () => this.getByTestId('cadastrarUsuario'),
+    nameRequiredMessage: () =>
+      cy.get('#root > div > div > div > form > div:nth-child(1)'),
+    emailRequiredMessage: () =>
+      cy.get('#root > div > div > div > form > div:nth-child(2)'),
+    passwordRequiredMessage: () =>
+      cy.get('#root > div > div > div > form > div:nth-child(3)'),
   };
 
   visit() {
@@ -41,6 +47,30 @@ class RegisterUserPage extends BasePage {
       .adminSubmitButton()
       .should('be.visible')
       .and('contain.text', 'Cadastrar');
+
+    return this;
+  }
+
+  submitAdminForm() {
+    this.elements.adminSubmitButton().click();
+    return this;
+  }
+
+  shouldShowRequiredMessages() {
+    this.elements
+      .nameRequiredMessage()
+      .should('be.visible')
+      .and('contain.text', 'Nome é obrigatório');
+
+    this.elements
+      .emailRequiredMessage()
+      .should('be.visible')
+      .and('contain.text', 'Email é obrigatório');
+
+    this.elements
+      .passwordRequiredMessage()
+      .should('be.visible')
+      .and('contain.text', 'Password é obrigatório');
 
     return this;
   }

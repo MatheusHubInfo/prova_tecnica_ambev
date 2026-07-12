@@ -1,7 +1,8 @@
 import RegisterUserPage from '../../pages/RegisterUserPage';
 import { UsersApi } from '../../services/api';
-import { MESSAGES } from '../../support/constants';
+import { MESSAGES, ROUTES } from '../../support/constants';
 import { buildUser } from '../../support/factories';
+import users from '../../fixtures/users.json';
 
 describe('Frontend - Cadastro de Usuário', () => {
   let createdUserEmail;
@@ -17,6 +18,14 @@ describe('Frontend - Cadastro de Usuário', () => {
         expect(deleteResponse.status).to.eq(200);
       });
     });
+  });
+
+  it('Deve exibir as mensagens dos campos obrigatórios', () => {
+    cy.loginByUi(users.adminUser.email, users.adminUser.password);
+    cy.visit(ROUTES.adminRegisterUsers);
+
+    RegisterUserPage.submitAdminForm();
+    RegisterUserPage.shouldShowRequiredMessages();
   });
 
   it('Deve cadastrar um novo usuário com sucesso', () => {
