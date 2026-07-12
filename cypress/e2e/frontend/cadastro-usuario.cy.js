@@ -1,22 +1,13 @@
 import RegisterUserPage from '../../pages/RegisterUserPage';
+import { MESSAGES } from '../../support/constants';
+import { buildUser } from '../../support/factories';
 
 describe('Frontend - Cadastro de Usuário', () => {
   it('Deve cadastrar um novo usuário com sucesso', () => {
-    cy.generateUniqueEmail().then((email) => {
-      const newUser = {
-        nome: 'Novo Usuario Automacao',
-        email,
-        password: 'senha123',
-        administrador: false,
-      };
+    const newUser = buildUser({ nome: 'Novo Usuario Automacao' });
 
-      RegisterUserPage.visit();
-      RegisterUserPage.register(newUser);
-
-      RegisterUserPage.elements
-        .alertMessage()
-        .should('be.visible')
-        .and('contain.text', 'Cadastro realizado com sucesso');
-    });
+    RegisterUserPage.visit();
+    RegisterUserPage.register(newUser);
+    RegisterUserPage.shouldShowAlertWith(MESSAGES.registerSuccess);
   });
 });

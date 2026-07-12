@@ -5,20 +5,25 @@
   "scripts": {
     "cy:open": "cypress open",
     "cy:run": "cypress run",
+    "test": "cypress run",
     "test:e2e": "cypress run --spec 'cypress/e2e/frontend/**/*.cy.js'",
     "test:api": "cypress run --spec 'cypress/e2e/api/**/*.cy.js'",
-    "test": "cypress run"
+    "test:headed": "cypress run --headed --browser chrome"
   },
   "keywords": [
     "cypress",
     "e2e",
     "api",
     "automation",
-    "serverest"
+    "serverest",
+    "qa"
   ],
   "author": "Matheus",
   "license": "MIT",
   "devDependencies": {
     "cypress": "^13.17.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

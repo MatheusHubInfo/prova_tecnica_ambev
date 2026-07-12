@@ -1,34 +1,26 @@
-import LoginPage from '../../pages/LoginPage';
 import HomePage from '../../pages/HomePage';
 import RegisterProductPage from '../../pages/RegisterProductPage';
 import ListProductsPage from '../../pages/ListProductsPage';
+import { MESSAGES } from '../../support/constants';
+import { buildProduct } from '../../support/factories';
 
 describe('Frontend - Cadastro de Produto', () => {
   beforeEach(() => {
-    const email = Cypress.env('userEmail');
-    const password = Cypress.env('userPassword');
-
-    LoginPage.visit();
-    LoginPage.login(email, password);
+    cy.loginByUi();
+    cy.visit('/admin/home');
     HomePage.shouldBeVisible();
   });
 
   it('Deve cadastrar um produto e exibi-lo na listagem', () => {
-    const timestamp = Date.now();
-    const product = {
-      nome: `Produto E2E ${timestamp}`,
+    const product = buildProduct({
+      nome: `Produto E2E ${Date.now()}`,
       preco: 2999,
-      descricao: 'Produto cadastrado via teste E2E Cypress',
       quantidade: 5,
-    };
+    });
 
     HomePage.goToRegisterProducts();
     RegisterProductPage.register(product);
-
-    RegisterProductPage.elements
-      .alertMessage()
-      .should('be.visible')
-      .and('contain.text', 'Cadastro realizado com sucesso');
+    RegisterProductPage.shouldShowAlertWith(MESSAGES.registerSuccess);
 
     ListProductsPage.visit();
     ListProductsPage.shouldContainProduct(product.nome);

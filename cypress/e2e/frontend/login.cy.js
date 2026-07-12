@@ -1,5 +1,6 @@
 import LoginPage from '../../pages/LoginPage';
 import HomePage from '../../pages/HomePage';
+import { ROUTES } from '../../support/constants';
 
 describe('Frontend - Login', () => {
   beforeEach(() => {
@@ -14,6 +15,6 @@ describe('Frontend - Login', () => {
 
     HomePage.shouldBeVisible();
     HomePage.elements.logoutButton().should('be.visible');
-    cy.url().should('include', '/admin/home');
+    cy.url().should('include', ROUTES.home);
   });
 });
