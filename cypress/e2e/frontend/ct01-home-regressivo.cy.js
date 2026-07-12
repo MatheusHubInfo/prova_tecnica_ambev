@@ -1,17 +1,28 @@
 import LoginPage from '../../pages/LoginPage';
 import HomePage from '../../pages/HomePage';
-import { ROUTES, WAIT_TIME } from '../../support/constants';
+import { ROUTES } from '../../support/constants';
 
 describe('CT01 - Regressivo da Home', () => {
+  let adminUser;
+
+  before(() => {
+    return cy.createAdminUser().then((user) => {
+      adminUser = user;
+    });
+  });
+
+  after(() => {
+    if (adminUser) {
+      return cy.deleteUser(adminUser.id);
+    }
+  });
+
   beforeEach(() => {
-    const email = Cypress.env('userEmail');
-    const password = Cypress.env('userPassword');
-
     LoginPage.visit();
-    LoginPage.login(email, password);
+    LoginPage.login(adminUser.email, adminUser.password);
 
-    cy.wait(WAIT_TIME.afterLogin);
     HomePage.shouldBeOnHomePage();
+    HomePage.shouldBeVisible();
   });
 
   context('Autenticação e redirecionamento', () => {

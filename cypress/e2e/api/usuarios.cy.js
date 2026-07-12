@@ -8,8 +8,9 @@ describe('API - Usuários', () => {
   afterEach(() => {
     if (!createdUserId) return;
 
-    cy.apiLogin().then(() => {
-      UsersApi.delete(createdUserId, Cypress.env('authToken'));
+    return UsersApi.delete(createdUserId).then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body.message).to.eq(MESSAGES.deleteSuccess);
       createdUserId = null;
     });
   });

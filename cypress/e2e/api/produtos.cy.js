@@ -3,21 +3,35 @@ import { MESSAGES } from '../../support/constants';
 import { buildProduct } from '../../support/factories';
 
 describe('API - Produtos', () => {
+  let adminUser;
   let authToken;
   let createdProductId;
 
   before(() => {
-    cy.apiLogin().then((response) => {
-      expect(response.status).to.eq(200);
-      authToken = response.body.authorization;
+    return cy.createAdminUser().then((user) => {
+      adminUser = user;
+
+      return cy.apiLogin(user.email, user.password).then((response) => {
+        expect(response.status).to.eq(200);
+        authToken = response.body.authorization;
+      });
     });
+  });
+
+  after(() => {
+    if (adminUser) {
+      return cy.deleteUser(adminUser.id);
+    }
   });
 
   afterEach(() => {
     if (!createdProductId || !authToken) return;
 
-    ProductsApi.delete(createdProductId, authToken);
-    createdProductId = null;
+    return ProductsApi.delete(createdProductId, authToken).then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body.message).to.eq(MESSAGES.deleteSuccess);
+      createdProductId = null;
+    });
   });
 
   it('Deve cadastrar um produto via API e consultá-lo pelo ID', () => {

@@ -16,6 +16,7 @@ export const ROUTES = {
 export const MESSAGES = {
   registerSuccess: 'Cadastro realizado com sucesso',
   loginSuccess: 'Login realizado com sucesso',
+  deleteSuccess: 'Registro excluído com sucesso',
 };
 
 export const API_ENDPOINTS = {
@@ -25,42 +26,42 @@ export const API_ENDPOINTS = {
 };
 
 export const HOME_CONTENT = {
-  welcomeTitle: 'Bem Vindo Teste',
+  welcomeTitle: 'Bem Vindo',
   welcomeSubtitle: 'Este é seu sistema para administrar seu ecommerce.',
   navItems: [
     {
       text: 'Home',
-      selector: '#navbarTogglerDemo01 > ul > li:nth-child(1) > a',
+      selector: '[data-testid="home"]',
       expectedRoute: ROUTES.home,
     },
     {
       text: 'Cadastrar Usuários',
-      selector: '#navbarTogglerDemo01 > ul > li:nth-child(2) > a',
+      selector: '[data-testid="cadastrar-usuarios"]',
       expectedRoute: ROUTES.adminRegisterUsers,
     },
     {
       text: 'Listar Usuários',
-      selector: '#navbarTogglerDemo01 > ul > li:nth-child(3) > a',
+      selector: '[data-testid="listar-usuarios"]',
       expectedRoute: ROUTES.adminListUsers,
     },
     {
       text: 'Cadastrar Produtos',
-      selector: '#navbarTogglerDemo01 > ul > li:nth-child(4) > a',
+      selector: '[data-testid="cadastrar-produtos"]',
       expectedRoute: ROUTES.adminRegisterProducts,
     },
     {
       text: 'Listar Produtos',
-      selector: '#navbarTogglerDemo01 > ul > li:nth-child(5) > a',
+      selector: '[data-testid="listar-produtos"]',
       expectedRoute: ROUTES.adminListProducts,
     },
     {
       text: 'Relatórios',
-      selector: '#navbarTogglerDemo01 > ul > li:nth-child(6) > a',
+      selector: '[data-testid="link-relatorios"]',
       expectedRoute: ROUTES.adminReports,
     },
     {
       text: 'Logout',
-      selector: '#navbarTogglerDemo01 > form > button',
+      selector: '[data-testid="logout"]',
       expectedRoute: ROUTES.login,
     },
   ],
@@ -70,7 +71,7 @@ export const HOME_CONTENT = {
       description:
         'Funcionalidade de cadastro de usuários para ter acesso ao ecommerce.',
       buttonText: 'Cadastrar',
-      buttonSelector: '#root > div > div > p.row > div:nth-child(2) > div > div > a',
+      buttonSelector: '[data-testid="cadastrarUsuarios"]',
       expectedRoute: ROUTES.adminRegisterUsers,
     },
     {
@@ -78,7 +79,7 @@ export const HOME_CONTENT = {
       description:
         'Funcionalidade de listagem de usuários que estão cadastrados.',
       buttonText: 'Listar',
-      buttonSelector: '#root > div > div > p.row > div:nth-child(3) > div > div > a',
+      buttonSelector: '[data-testid="listarUsuarios"]',
       expectedRoute: ROUTES.adminListUsers,
     },
     {
@@ -86,7 +87,7 @@ export const HOME_CONTENT = {
       description:
         'Funcionalidade de cadastro de produtos para ser utilizado no ecommerce.',
       buttonText: 'Cadastrar',
-      buttonSelector: '#root > div > div > p.row > div:nth-child(4) > div > div > a',
+      buttonSelector: '[data-testid="cadastrarProdutos"]',
       expectedRoute: ROUTES.adminRegisterProducts,
     },
     {
@@ -94,7 +95,7 @@ export const HOME_CONTENT = {
       description:
         'Funcionalidade de listagem de produtos que estão cadastrados.',
       buttonText: 'Listar',
-      buttonSelector: '#root > div > div > p.row > div:nth-child(5) > div > div > a',
+      buttonSelector: '[data-testid="listarProdutos"]',
       expectedRoute: ROUTES.adminListProducts,
     },
     {
@@ -102,18 +103,14 @@ export const HOME_CONTENT = {
       description:
         'Funcionalidade de relatórios gerais do sistema de ecommerce.',
       buttonText: 'Ver',
-      buttonSelector: '#root > div > div > p.row > div:nth-child(6) > div > div > a',
+      buttonSelector: '[data-testid="relatorios"]',
       expectedRoute: ROUTES.adminReports,
     },
   ],
 };
 
 export const LOGIN_SELECTORS = {
-  email: '#email',
-  password: '#password',
-  submitButton: '#root > div > div > form > button',
-};
-
-export const WAIT_TIME = {
-  afterLogin: 2000,
+  email: '[data-testid="email"]',
+  password: '[data-testid="senha"]',
+  submitButton: '[data-testid="entrar"]',
 };

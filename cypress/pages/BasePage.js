@@ -13,9 +13,7 @@ export default class BasePage {
   }
 
   shouldShowAlertWith(message) {
-    this.getByTestId('alert')
-      .should('be.visible')
-      .and('contain.text', message);
+    cy.contains(message).should('be.visible');
     return this;
   }
 }

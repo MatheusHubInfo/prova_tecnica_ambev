@@ -27,9 +27,6 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
-        env:
-          CYPRESS_userEmail: ${{ secrets.CYPRESS_USER_EMAIL }}
-          CYPRESS_userPassword: ${{ secrets.CYPRESS_USER_PASSWORD }}
 
       - name: Upload screenshots on failure
         uses: actions/upload-artifact@v4

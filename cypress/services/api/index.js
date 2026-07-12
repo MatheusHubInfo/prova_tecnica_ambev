@@ -38,6 +38,16 @@ export const UsersApi = {
     });
   },
 
+  findByEmail(email, token) {
+    return cy.request({
+      method: 'GET',
+      url: buildUrl(API_ENDPOINTS.users),
+      qs: { email },
+      headers: authHeaders(token),
+      failOnStatusCode: false,
+    });
+  },
+
   delete(id, token) {
     return cy.request({
       method: 'DELETE',
@@ -63,6 +73,16 @@ export const ProductsApi = {
     return cy.request({
       method: 'GET',
       url: buildUrl(API_ENDPOINTS.products),
+      headers: authHeaders(token),
+      failOnStatusCode: false,
+    });
+  },
+
+  findByName(nome, token) {
+    return cy.request({
+      method: 'GET',
+      url: buildUrl(API_ENDPOINTS.products),
+      qs: { nome },
       headers: authHeaders(token),
       failOnStatusCode: false,
     });

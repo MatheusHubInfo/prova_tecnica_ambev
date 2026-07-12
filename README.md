@@ -15,8 +15,7 @@ Projeto de automação de testes com **Cypress** e **JavaScript** para a aplica�
 
 | Arquivo | Cenário |
 |---------|---------|
-| `cypress/e2e/frontend/login.cy.js` | Login com credenciais válidas |
-| `cypress/e2e/frontend/ct01-home-regressivo.cy.js` | CT01 — regressivo completo da home após login |
+| `cypress/e2e/frontend/ct01-home-regressivo.cy.js` | Login e regressivo completo da home administrativa |
 | `cypress/e2e/frontend/cadastro-usuario.cy.js` | Cadastro de novo usuário |
 | `cypress/e2e/frontend/cadastro-produto.cy.js` | Cadastro de produto e validação na listagem |
 
@@ -36,7 +35,6 @@ Projeto de automação de testes com **Cypress** e **JavaScript** para a aplica�
 │   ├── e2e/
 │   │   ├── api/              # Testes de API (cy.request)
 │   │   └── frontend/         # Testes E2E do frontend
-│   ├── fixtures/             # Dados estáticos de referência
 │   ├── pages/                # Page Objects (POM)
 │   │   ├── BasePage.js       # Classe base reutilizável
 │   │   ├── LoginPage.js
@@ -51,7 +49,6 @@ Projeto de automação de testes com **Cypress** e **JavaScript** para a aplica�
 │       ├── constants.js      # Rotas, mensagens e endpoints
 │       └── factories.js      # Geração de dados de teste
 ├── cypress.config.js
-├── cypress.env.example.json
 └── package.json
 ```
 
@@ -81,21 +78,10 @@ cd prova_tecnica_ambev
 
 # 2. Instale as dependências exatamente como definidas no package-lock.json
 npm ci
-
-# 3. Configure as credenciais do Serverest
-cp cypress.env.example.json cypress.env.json
 ```
 
-Edite o `cypress.env.json`:
-
-```json
-{
-  "userEmail": "seu-email@serverest.dev",
-  "userPassword": "sua-senha"
-}
-```
-
-> **Importante:** cadastre-se em https://front.serverest.dev/ antes de executar os testes que exigem login.
+Os testes criam usuários temporários e removem os dados ao final da execução.
+Por isso, não é necessário cadastrar uma conta ou informar credenciais.
 
 ### Solução de problemas: executável do Cypress não encontrado
 
@@ -143,13 +129,7 @@ npm run test:headed
 ## CI/CD (GitHub Actions)
 
 O pipeline executa automaticamente em push/PR na branch `main`.
-
-Configure os secrets no repositório GitHub:
-
-| Secret | Descrição |
-|--------|-----------|
-| `CYPRESS_USER_EMAIL` | E-mail do usuário Serverest |
-| `CYPRESS_USER_PASSWORD` | Senha do usuário Serverest |
+Os dados necessários são criados durante os testes, sem configuração de secrets.
 
 ## Tecnologias
 

@@ -5,8 +5,8 @@ class RegisterProductPage extends BasePage {
     nameInput: () => this.getByTestId('nome'),
     priceInput: () => this.getByTestId('preco'),
     descriptionInput: () => this.getByTestId('descricao'),
-    quantityInput: () => this.getByTestId('quantidade'),
-    submitButton: () => this.getByTestId('salvarDados'),
+    quantityInput: () => this.getByTestId('quantity'),
+    submitButton: () => this.getByTestId('cadastarProdutos'),
   };
 
   fillForm({ nome, preco, descricao, quantidade }) {

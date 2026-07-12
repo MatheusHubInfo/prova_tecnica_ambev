@@ -78,11 +78,15 @@ class HomePage extends BasePage {
   }
 
   validateCardContent(card) {
-    cy.contains(card.title).should('be.visible');
-    cy.contains(card.description).should('be.visible');
     cy.get(card.buttonSelector)
-      .should('be.visible')
-      .and('contain.text', card.buttonText);
+      .closest('.card')
+      .within(() => {
+        cy.contains(card.title).should('be.visible');
+        cy.contains(card.description).should('be.visible');
+        cy.get(card.buttonSelector)
+          .should('be.visible')
+          .and('contain.text', card.buttonText);
+      });
     return this;
   }
 

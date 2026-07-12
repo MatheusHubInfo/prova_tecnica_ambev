@@ -1,8 +1,0 @@
-{
-  "validProduct": {
-    "nome": "Produto Teste Automacao",
-    "preco": 1500,
-    "descricao": "Produto criado via automação Cypress",
-    "quantidade": 10
-  }
-}
