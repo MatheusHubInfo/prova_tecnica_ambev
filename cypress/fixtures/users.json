@@ -1,0 +1,12 @@
+{
+  "validUser": {
+    "nome": "Usuario Teste Automacao",
+    "email": "usuario.automacao@serverest.dev",
+    "password": "senha123",
+    "administrador": "true"
+  },
+  "invalidLogin": {
+    "email": "email.invalido@serverest.dev",
+    "password": "senhaerrada"
+  }
+}
