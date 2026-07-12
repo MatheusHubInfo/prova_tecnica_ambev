@@ -7,6 +7,7 @@ import users from '../../fixtures/users.json';
 describe('Frontend - Cadastro de Usuário', () => {
   let createdUserEmail;
 
+  // Busca e exclui o usuário criado para não deixar dados de teste na API.
   afterEach(() => {
     if (!createdUserEmail) return;
 
@@ -16,6 +17,7 @@ describe('Frontend - Cadastro de Usuário', () => {
 
       return UsersApi.delete(createdUser._id).then((deleteResponse) => {
         expect(deleteResponse.status).to.eq(200);
+        createdUserEmail = null;
       });
     });
   });

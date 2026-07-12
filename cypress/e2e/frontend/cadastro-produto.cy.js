@@ -9,33 +9,35 @@ import users from '../../fixtures/users.json';
 describe('Frontend - Cadastro de Produto', () => {
   let createdProductName;
 
+  // Garante uma sessão autenticada e inicia cada teste na Home.
   beforeEach(() => {
     cy.loginByUi(users.adminUser.email, users.adminUser.password);
     cy.visit('/admin/home');
     HomePage.shouldBeVisible();
   });
 
+  // Busca e exclui o produto criado para manter o ambiente limpo.
   afterEach(() => {
     if (!createdProductName) return;
 
+    let authToken;
+
     return cy
       .apiLogin(users.adminUser.email, users.adminUser.password)
-      .then((loginResponse) =>
-        ProductsApi.findByName(
-          createdProductName,
-          loginResponse.body.authorization,
-        ),
-      )
+      .then((loginResponse) => {
+        authToken = loginResponse.body.authorization;
+        return ProductsApi.findByName(createdProductName, authToken);
+      })
       .then((searchResponse) => {
         const createdProduct = searchResponse.body.produtos[0];
         if (!createdProduct) return;
 
-        return ProductsApi.delete(
-          createdProduct._id,
-          Cypress.env('authToken'),
-        ).then((deleteResponse) => {
-          expect(deleteResponse.status).to.eq(200);
-        });
+        return ProductsApi.delete(createdProduct._id, authToken).then(
+          (deleteResponse) => {
+            expect(deleteResponse.status).to.eq(200);
+            createdProductName = null;
+          },
+        );
       });
   });
 

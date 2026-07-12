@@ -49,7 +49,7 @@ describe('CT01 - Regressivo da Home', () => {
       HomePage.validateAllCardsContent();
     });
 
-    it.only('Deve validar as páginas acessadas pelos botões dos cards', () => {
+    it('Deve validar as páginas acessadas pelos botões dos cards', () => {
       const [
         registerUsersCard,
         listUsersCard,
