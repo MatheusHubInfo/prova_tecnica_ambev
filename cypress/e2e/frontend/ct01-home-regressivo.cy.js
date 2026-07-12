@@ -15,7 +15,7 @@ describe('CT01 - Regressivo da Home', () => {
   });
 
   context('Autenticação e redirecionamento', () => {
-    it.only('Deve autenticar e redirecionar para a home administrativa', () => {
+    it('Deve autenticar e redirecionar para a home administrativa', () => {
       cy.url().should('include', ROUTES.home);
       HomePage.shouldBeVisible();
     });
