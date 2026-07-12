@@ -1,6 +1,6 @@
 # Ambev Automation E2E
 
-Projeto de automação de testes com **Cypress** para a aplicação [Serverest](https://serverest.dev/), desenvolvido como parte da prova técnica.
+Projeto de automação de testes com **Cypress** e **JavaScript** para a aplicação [ServeRest](https://serverest.dev/), desenvolvido como prova técnica.
 
 ## Aplicações testadas
 
@@ -17,95 +17,124 @@ Projeto de automação de testes com **Cypress** para a aplicação [Serverest](
 |---------|---------|
 | `cypress/e2e/frontend/login.cy.js` | Login com credenciais válidas |
 | `cypress/e2e/frontend/cadastro-usuario.cy.js` | Cadastro de novo usuário |
-| `cypress/e2e/frontend/cadastro-produto.cy.js` | Cadastro de produto autenticado |
+| `cypress/e2e/frontend/cadastro-produto.cy.js` | Cadastro de produto e validação na listagem |
 
 ### API — 3 cenários
 
 | Arquivo | Cenário |
 |---------|---------|
+| `cypress/e2e/api/login.cy.js` | Autenticação e retorno de token Bearer |
 | `cypress/e2e/api/usuarios.cy.js` | Cadastro de usuário via API |
-| `cypress/e2e/api/login.cy.js` | Autenticação e retorno de token |
-| `cypress/e2e/api/produtos.cy.js` | Cadastro e consulta de produto via API |
+| `cypress/e2e/api/produtos.cy.js` | Cadastro e consulta de produto por ID |
 
-## Estrutura do projeto
+## Arquitetura do projeto
 
 ```
+├── .github/workflows/        # Pipeline CI com Cypress
 ├── cypress/
 │   ├── e2e/
-│   │   ├── api/              # Testes de API
+│   │   ├── api/              # Testes de API (cy.request)
 │   │   └── frontend/         # Testes E2E do frontend
-│   ├── fixtures/             # Dados de teste reutilizáveis
+│   ├── fixtures/             # Dados estáticos de referência
 │   ├── pages/                # Page Objects (POM)
-│   ├── services/             # Camada de serviços da API
-│   └── support/              # Commands customizados e configurações
+│   │   ├── BasePage.js       # Classe base reutilizável
+│   │   ├── LoginPage.js
+│   │   ├── HomePage.js
+│   │   ├── RegisterUserPage.js
+│   │   ├── RegisterProductPage.js
+│   │   └── ListProductsPage.js
+│   ├── services/
+│   │   └── api/              # Camada de serviços HTTP
+│   └── support/
+│       ├── commands.js       # Commands customizados (login, apiLogin)
+│       ├── constants.js      # Rotas, mensagens e endpoints
+│       └── factories.js      # Geração de dados de teste
 ├── cypress.config.js
-├── cypress.env.example.json  # Modelo de variáveis de ambiente
+├── cypress.env.example.json
 └── package.json
 ```
 
-## Padrões adotados
+## Padrões e boas práticas
 
-- **Page Object Model (POM)** — encapsulamento de seletores e ações das páginas
-- **Separação de responsabilidades** — testes, pages, services e fixtures em camadas distintas
-- **Dados dinâmicos** — e-mails únicos gerados em tempo de execução para evitar conflitos
-- **Limpeza de dados** — exclusão de registros criados nos testes de API (teardown)
-- **Variáveis de ambiente** — credenciais fora do código-fonte via `cypress.env.json`
+| Padrão | Aplicação |
+|--------|-----------|
+| **Page Object Model (POM)** | Seletores e ações encapsulados em classes de página |
+| **Service Layer** | Requisições HTTP centralizadas em `services/api` |
+| **Factory Pattern** | Dados dinâmicos gerados via `buildUser()` e `buildProduct()` |
+| **Constants** | Rotas, mensagens e endpoints em um único lugar |
+| **cy.session** | Reutilização de sessão de login entre testes E2E |
+| **Teardown** | Limpeza de dados criados nos testes de API |
+| **Variáveis de ambiente** | Credenciais fora do código via `cypress.env.json` |
 
 ## Pré-requisitos
 
-- [Node.js](https://nodejs.org/) (v18 ou superior)
+- [Node.js](https://nodejs.org/) v18 ou superior
 - [npm](https://www.npmjs.com/)
 
 ## Configuração
 
-1. Clone o repositório:
-
 ```bash
+# 1. Clone o repositório
 git clone https://github.com/MatheusHubInfo/prova_tecnica_ambev.git
 cd prova_tecnica_ambev
-```
 
-2. Instale as dependências:
-
-```bash
+# 2. Instale as dependências
 npm install
-```
 
-3. Configure as credenciais:
-
-```bash
+# 3. Configure as credenciais do Serverest
 cp cypress.env.example.json cypress.env.json
 ```
 
-Edite o `cypress.env.json` com seu e-mail e senha do Serverest:
+Edite o `cypress.env.json`:
 
 ```json
 {
-  "userEmail": "seu-email@exemplo.com",
+  "userEmail": "seu-email@serverest.dev",
   "userPassword": "sua-senha"
 }
 ```
 
+> **Importante:** cadastre-se em https://front.serverest.dev/ antes de executar os testes que exigem login.
+
 ## Executando os testes
 
 ```bash
-# Abrir interface interativa do Cypress
+# Interface interativa do Cypress
 npm run cy:open
 
-# Executar todos os testes (headless)
+# Todos os testes (headless)
 npm run test
 
-# Executar apenas testes E2E do frontend
+# Apenas frontend E2E
 npm run test:e2e
 
-# Executar apenas testes de API
+# Apenas API
 npm run test:api
+
+# Com browser visível
+npm run test:headed
 ```
+
+## CI/CD (GitHub Actions)
+
+O pipeline executa automaticamente em push/PR na branch `main`.
+
+Configure os secrets no repositório GitHub:
+
+| Secret | Descrição |
+|--------|-----------|
+| `CYPRESS_USER_EMAIL` | E-mail do usuário Serverest |
+| `CYPRESS_USER_PASSWORD` | Senha do usuário Serverest |
 
 ## Tecnologias
 
 - [Cypress](https://www.cypress.io/) v13
 - JavaScript (ES Modules)
+- [ServeRest](https://serverest.dev/) — API e frontend de estudo
+
+## Repositório
+
+https://github.com/MatheusHubInfo/prova_tecnica_ambev
 
 ## Autor
 
