@@ -1,17 +1,13 @@
-class RegisterProductPage {
-  elements = {
-    nameInput: () => cy.get('[data-test="nome"]'),
-    priceInput: () => cy.get('[data-test="preco"]'),
-    descriptionInput: () => cy.get('[data-test="descricao"]'),
-    quantityInput: () => cy.get('[data-test="quantidade"]'),
-    submitButton: () => cy.get('[data-test="salvarDados"]'),
-    alertMessage: () => cy.get('[data-test="alert"]'),
-  };
+import BasePage from './BasePage';
 
-  visit() {
-    cy.visit('/admin/home');
-    return this;
-  }
+class RegisterProductPage extends BasePage {
+  elements = {
+    nameInput: () => this.getByTestId('nome'),
+    priceInput: () => this.getByTestId('preco'),
+    descriptionInput: () => this.getByTestId('descricao'),
+    quantityInput: () => this.getByTestId('quantidade'),
+    submitButton: () => this.getByTestId('salvarDados'),
+  };
 
   fillForm({ nome, preco, descricao, quantidade }) {
     this.elements.nameInput().clear().type(nome);

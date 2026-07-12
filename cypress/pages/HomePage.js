@@ -1,11 +1,14 @@
-class HomePage {
+import BasePage from './BasePage';
+import { ROUTES } from '../support/constants';
+
+class HomePage extends BasePage {
   elements = {
-    homeTitle: () => cy.get('[data-test="home"]'),
-    logoutButton: () => cy.get('[data-test="logout"]'),
-    registerProductsLink: () => cy.get('[data-test="cadastrarProdutos"]'),
-    listProductsLink: () => cy.get('[data-test="listarProdutos"]'),
-    registerUsersLink: () => cy.get('[data-test="cadastrarUsuarios"]'),
-    listUsersLink: () => cy.get('[data-test="listarUsuarios"]'),
+    homeTitle: () => this.getByTestId('home'),
+    logoutButton: () => this.getByTestId('logout'),
+    registerProductsLink: () => this.getByTestId('cadastrarProdutos'),
+    listProductsLink: () => this.getByTestId('listarProdutos'),
+    registerUsersLink: () => this.getByTestId('cadastrarUsuarios'),
+    listUsersLink: () => this.getByTestId('listarUsuarios'),
   };
 
   shouldBeVisible() {
@@ -30,6 +33,11 @@ class HomePage {
 
   goToRegisterUsers() {
     this.elements.registerUsersLink().click();
+    return this;
+  }
+
+  shouldBeOnHomePage() {
+    cy.url().should('include', ROUTES.home);
     return this;
   }
 }

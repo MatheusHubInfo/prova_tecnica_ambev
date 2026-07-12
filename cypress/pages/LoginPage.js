@@ -1,14 +1,16 @@
-class LoginPage {
+import BasePage from './BasePage';
+import { ROUTES } from '../support/constants';
+
+class LoginPage extends BasePage {
   elements = {
-    emailInput: () => cy.get('[data-test="email"]'),
-    passwordInput: () => cy.get('[data-test="senha"]'),
-    submitButton: () => cy.get('[data-test="entrar"]'),
-    registerLink: () => cy.get('[data-test="cadastrar"]'),
-    alertMessage: () => cy.get('[data-test="alert"]'),
+    emailInput: () => this.getByTestId('email'),
+    passwordInput: () => this.getByTestId('senha'),
+    submitButton: () => this.getByTestId('entrar'),
+    registerLink: () => this.getByTestId('cadastrar'),
   };
 
   visit() {
-    cy.visit('/');
+    super.visit(ROUTES.login);
     return this;
   }
 

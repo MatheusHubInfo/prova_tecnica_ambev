@@ -1,12 +1,14 @@
-class ListProductsPage {
+import BasePage from './BasePage';
+import { ROUTES } from '../support/constants';
+
+class ListProductsPage extends BasePage {
   elements = {
     productsTable: () => cy.get('table'),
-    productRows: () => cy.get('tbody tr'),
-    searchInput: () => cy.get('[data-test="pesquisar"]'),
+    searchInput: () => this.getByTestId('pesquisar'),
   };
 
   visit() {
-    cy.visit('/admin/listarprodutos');
+    super.visit(ROUTES.listProducts);
     return this;
   }
 

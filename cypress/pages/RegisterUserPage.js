@@ -1,15 +1,17 @@
-class RegisterUserPage {
+import BasePage from './BasePage';
+import { ROUTES } from '../support/constants';
+
+class RegisterUserPage extends BasePage {
   elements = {
-    nameInput: () => cy.get('[data-test="nome"]'),
-    emailInput: () => cy.get('[data-test="email"]'),
-    passwordInput: () => cy.get('[data-test="password"]'),
-    adminCheckbox: () => cy.get('[data-test="checkbox"]'),
-    submitButton: () => cy.get('[data-test="cadastrar"]'),
-    alertMessage: () => cy.get('[data-test="alert"]'),
+    nameInput: () => this.getByTestId('nome'),
+    emailInput: () => this.getByTestId('email'),
+    passwordInput: () => this.getByTestId('password'),
+    adminCheckbox: () => this.getByTestId('checkbox'),
+    submitButton: () => this.getByTestId('cadastrar'),
   };
 
   visit() {
-    cy.visit('/cadastrarusuarios');
+    super.visit(ROUTES.registerUser);
     return this;
   }
 
