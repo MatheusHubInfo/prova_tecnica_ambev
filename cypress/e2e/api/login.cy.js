@@ -1,10 +1,22 @@
 import { AuthApi } from '../../services/api';
 import { MESSAGES } from '../../support/constants';
-import users from '../../fixtures/users.json';
 
 describe('API - Autenticação', () => {
+  let adminUser;
+
+  before(() => {
+    return cy.createAdminUser().then((user) => {
+      adminUser = user;
+    });
+  });
+
+  after(() => {
+    if (!adminUser) return;
+    return cy.deleteUser(adminUser._id);
+  });
+
   it('Deve realizar login com credenciais válidas e retornar token de autorização', () => {
-    AuthApi.login(users.adminUser.email, users.adminUser.password).then((response) => {
+    AuthApi.login(adminUser.email, adminUser.password).then((response) => {
       expect(response.status).to.eq(200);
       expect(response.body.message).to.eq(MESSAGES.loginSuccess);
       expect(response.body.authorization).to.be.a('string').and.not.be.empty;

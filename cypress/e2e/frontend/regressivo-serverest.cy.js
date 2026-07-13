@@ -6,15 +6,27 @@ import RegisterProductPage from '../../pages/RegisterProductPage';
 import ListProductsPage from '../../pages/ListProductsPage';
 import ReportsPage from '../../pages/ReportsPage';
 import { ROUTES, HOME_CONTENT } from '../../support/constants';
-import users from '../../fixtures/users.json';
 
 describe('CT01 - Regressivo da Home', () => {
+  let adminUser;
+
+  before(() => {
+    return cy.createAdminUser().then((user) => {
+      adminUser = user;
+    });
+  });
+
   beforeEach(() => {
     LoginPage.visit();
-    LoginPage.login(users.adminUser.email, users.adminUser.password);
+    LoginPage.login(adminUser.email, adminUser.password);
 
     HomePage.shouldBeOnHomePage();
     HomePage.shouldBeVisible();
+  });
+
+  after(() => {
+    if (!adminUser) return;
+    return cy.deleteUser(adminUser._id);
   });
 
   context('Autenticação e redirecionamento', () => {

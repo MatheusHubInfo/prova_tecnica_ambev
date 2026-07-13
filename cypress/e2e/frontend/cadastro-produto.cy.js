@@ -4,14 +4,20 @@ import ListProductsPage from '../../pages/ListProductsPage';
 import { ProductsApi } from '../../services/api';
 import { ROUTES } from '../../support/constants';
 import { buildProduct } from '../../support/factories';
-import users from '../../fixtures/users.json';
 
 describe('Frontend - Cadastro de Produto', () => {
+  let adminUser;
   let createdProductName;
+
+  before(() => {
+    return cy.createAdminUser().then((user) => {
+      adminUser = user;
+    });
+  });
 
   // Garante uma sessão autenticada e inicia cada teste na Home.
   beforeEach(() => {
-    cy.loginByUi(users.adminUser.email, users.adminUser.password);
+    cy.loginByUi(adminUser.email, adminUser.password);
     cy.visit('/admin/home');
     HomePage.shouldBeVisible();
   });
@@ -23,7 +29,7 @@ describe('Frontend - Cadastro de Produto', () => {
     let authToken;
 
     return cy
-      .apiLogin(users.adminUser.email, users.adminUser.password)
+      .apiLogin(adminUser.email, adminUser.password)
       .then((loginResponse) => {
         authToken = loginResponse.body.authorization;
         return ProductsApi.findByName(createdProductName, authToken);
@@ -39,6 +45,11 @@ describe('Frontend - Cadastro de Produto', () => {
           },
         );
       });
+  });
+
+  after(() => {
+    if (!adminUser) return;
+    return cy.deleteUser(adminUser._id);
   });
 
   it('Deve cadastrar um produto e exibi-lo na listagem', () => {

@@ -35,7 +35,6 @@ Projeto de automação de testes com **Cypress** e **JavaScript** para a aplica�
 │   ├── e2e/
 │   │   ├── api/              # Testes de API (cy.request)
 │   │   └── frontend/         # Testes E2E do frontend
-│   ├── fixtures/             # Usuário fixo utilizado nos logins
 │   ├── pages/                # Page Objects (POM)
 │   │   ├── BasePage.js       # Classe base reutilizável
 │   │   ├── LoginPage.js
@@ -62,8 +61,7 @@ Projeto de automação de testes com **Cypress** e **JavaScript** para a aplica�
 | **Factory Pattern** | Dados dinâmicos gerados via `buildUser()` e `buildProduct()` |
 | **Constants** | Rotas, mensagens e endpoints em um único lugar |
 | **cy.session** | Reutilização de sessão de login entre testes E2E |
-| **Teardown** | Limpeza de dados criados nos testes de API |
-| **Variáveis de ambiente** | Credenciais fora do código via `cypress.env.json` |
+| **Setup e teardown** | Criação e remoção dos usuários e dados temporários de cada suíte |
 
 ## Pré-requisitos
 
@@ -81,9 +79,9 @@ cd prova_tecnica_ambev
 npm ci
 ```
 
-Os cenários autenticados utilizam o usuário administrador definido em
-`cypress/fixtures/users.json`. Os demais dados criados pelos testes são
-dinâmicos e removidos ao final da execução.
+Cada arquivo cria seu próprio usuário administrador antes dos testes e o remove
+ao final da execução. Assim, os cenários não dependem de contas previamente
+cadastradas no ServeRest.
 
 ### Solução de problemas: executável do Cypress não encontrado
 
@@ -132,7 +130,7 @@ npm run test:headed
 
 O pipeline executa automaticamente em push/PR na branch `main`.
 Também é possível executá-lo manualmente em **Actions → Cypress Tests → Run workflow**.
-O usuário de login está definido na fixture do projeto, sem configuração de secrets.
+Cada suíte cria dinamicamente o usuário utilizado no login, sem configuração de secrets.
 
 ## Tecnologias
 

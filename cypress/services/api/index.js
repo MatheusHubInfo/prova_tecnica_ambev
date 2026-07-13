@@ -20,11 +20,12 @@ export const AuthApi = {
 };
 
 export const UsersApi = {
-  create(user) {
+  create(user, token) {
     return cy.request({
       method: 'POST',
       url: buildUrl(API_ENDPOINTS.users),
       body: user,
+      headers: authHeaders(token),
       failOnStatusCode: false,
     });
   },

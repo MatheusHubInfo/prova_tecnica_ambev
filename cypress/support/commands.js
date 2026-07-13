@@ -1,4 +1,33 @@
 import { API_URL, API_ENDPOINTS, ROUTES, LOGIN_SELECTORS } from './constants';
+import { UsersApi } from '../services/api';
+import { buildUser } from './factories';
+
+/**
+ * Cria um administrador temporário para a execução de uma suíte.
+ */
+Cypress.Commands.add('createAdminUser', () => {
+  const adminUser = buildUser({
+    nome: 'Administrador Automacao',
+    administrador: 'true',
+  });
+
+  return UsersApi.create(adminUser).then((response) => {
+    expect(response.status).to.eq(201);
+    expect(response.body._id).to.be.a('string').and.not.be.empty;
+
+    return { ...adminUser, _id: response.body._id };
+  });
+});
+
+/**
+ * Exclui o administrador temporário criado para a suíte.
+ */
+Cypress.Commands.add('deleteUser', (userId, token) => {
+  return UsersApi.delete(userId, token).then((response) => {
+    expect(response.status).to.eq(200);
+    return response;
+  });
+});
 
 /**
  * Realiza login via API e armazena o token de autorização.

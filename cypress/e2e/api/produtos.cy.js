@@ -1,19 +1,23 @@
 import { ProductsApi } from '../../services/api';
 import { MESSAGES } from '../../support/constants';
 import { buildProduct } from '../../support/factories';
-import users from '../../fixtures/users.json';
 
 describe('API - Produtos', () => {
+  let adminUser;
   let authToken;
   let createdProductId;
 
   before(() => {
     return cy
-      .apiLogin(users.adminUser.email, users.adminUser.password)
+      .createAdminUser()
+      .then((user) => {
+        adminUser = user;
+        return cy.apiLogin(user.email, user.password);
+      })
       .then((response) => {
         expect(response.status).to.eq(200);
         authToken = response.body.authorization;
-    });
+      });
   });
 
   afterEach(() => {
@@ -24,6 +28,11 @@ describe('API - Produtos', () => {
       expect(response.body.message).to.eq(MESSAGES.deleteSuccess);
       createdProductId = null;
     });
+  });
+
+  after(() => {
+    if (!adminUser) return;
+    return cy.deleteUser(adminUser._id, authToken);
   });
 
   it('Deve cadastrar um produto via API e consultá-lo pelo ID', () => {

@@ -2,10 +2,16 @@ import RegisterUserPage from '../../pages/RegisterUserPage';
 import { UsersApi } from '../../services/api';
 import { MESSAGES, ROUTES } from '../../support/constants';
 import { buildUser } from '../../support/factories';
-import users from '../../fixtures/users.json';
 
 describe('Frontend - Cadastro de Usuário', () => {
+  let adminUser;
   let createdUserEmail;
+
+  before(() => {
+    return cy.createAdminUser().then((user) => {
+      adminUser = user;
+    });
+  });
 
   // Busca e exclui o usuário criado para não deixar dados de teste na API.
   afterEach(() => {
@@ -22,8 +28,13 @@ describe('Frontend - Cadastro de Usuário', () => {
     });
   });
 
+  after(() => {
+    if (!adminUser) return;
+    return cy.deleteUser(adminUser._id);
+  });
+
   it('Deve exibir as mensagens dos campos obrigatórios', () => {
-    cy.loginByUi(users.adminUser.email, users.adminUser.password);
+    cy.loginByUi(adminUser.email, adminUser.password);
     cy.visit(ROUTES.adminRegisterUsers);
 
     RegisterUserPage.submitAdminForm();
